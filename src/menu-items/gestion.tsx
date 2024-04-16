@@ -24,7 +24,7 @@ const gestion: NavItemType = {
     icon: icons.gestion,
     type: 'group',
     children: [
-      {
+      /* {
         id: 'article',
         title: <FormattedMessage id="Article" />,
         type: 'item',
@@ -44,7 +44,7 @@ const gestion: NavItemType = {
         type: 'item',
         url: '/widget/chart',
         icon: icons.auteur
-      },
+      }, */
       {
         id: 'facturation',
         title: <FormattedMessage id="Facturation" />,

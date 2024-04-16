@@ -31,18 +31,7 @@ const SettingTab = () => {
         </ListItemIcon>
         <ListItemText primary="Account Settings" />
       </ListItemButton>
-      <ListItemButton selected={selectedIndex === 2} onClick={(event: MouseEvent<HTMLDivElement>) => handleListItemClick(event, 2)}>
-        <ListItemIcon>
-          <Lock1 variant="Bulk" size={18} />
-        </ListItemIcon>
-        <ListItemText primary="Privacy Center" />
-      </ListItemButton>
-      <ListItemButton selected={selectedIndex === 3} onClick={(event: MouseEvent<HTMLDivElement>) => handleListItemClick(event, 3)}>
-        <ListItemIcon>
-          <Messages1 variant="Bulk" size={18} />
-        </ListItemIcon>
-        <ListItemText primary="Feedback" />
-      </ListItemButton>
+
       <ListItemButton selected={selectedIndex === 4} onClick={(event: MouseEvent<HTMLDivElement>) => handleListItemClick(event, 4)}>
         <ListItemIcon>
           <Clipboard variant="Bulk" size={18} />
