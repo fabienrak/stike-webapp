@@ -54,39 +54,25 @@ const AuthLogin = ({ providers, csrfToken }: any) => {
   };
 
   const onSubmit = (values, {setSubmitting}) =>  {
-    console.log("################ DATA : " + JSON.stringify(values));
     axios.post('http://localhost:3333/api/v1/auth/login', values)
     .then((response) => {
-        console.log("****** RETOUR RESPONSE : " + response)
-        console.log("######### RETOUR API LOGIN DATA FOTSINY : " + JSON.stringify(response.data))
-        console.log("1 =  RETOUR API LOGIN TOKEN RETRARETRA : " + JSON.stringify(response.data.data.token))
-        console.log("2 = TYPE : " + JSON.stringify(response.data.data.token.type))
-        console.log("3 = TOKEN : " + JSON.stringify(response.data.data.token.token))
-        console.log("4  = EXPIRATION : " + JSON.stringify(response.data.data.token.expiresAt))
-        console.log("5  = USER_DATA ID : " + JSON.stringify(response.data.data.user_data.id))
-        console.log("6  = USER_DATA USERNAME : " + JSON.stringify(response.data.data.user_data.username))
-
         if(JSON.stringify(response.status) == 200){
 
-          const appData = {
+          //  Todo : Encrypt data on localStorage
+          /* const appData = {
             token_type: JSON.stringify(response.data.data.token.type),
             token_value:  JSON.stringify(response.data.data.token.token),
             date_expiration:  JSON.stringify(response.data.data.token.expiresAt),
             user_id:  JSON.stringify(response.data.data.user_data.id),
             username: JSON.stringify(response.data.data.user_data.username)
-          };
+          }; */
+          
           localStorage.setItem("token_type",JSON.stringify(response.data.data.token.type));
           localStorage.setItem("token_value",JSON.stringify(response.data.data.token.token));
           localStorage.setItem("date_expiration",JSON.stringify(response.data.data.token.expiresAt));
           localStorage.setItem("user_id",JSON.stringify(response.data.data.user_data.id));
           localStorage.setItem("username",JSON.stringify(response.data.data.user_data.username));
           
-
-          //const dataStored = encryptLocalStorage(appData);
-
-          // console.log("DATA STORED : " + appData);
-          
-          // localStorage.setItem("app_data", dataStored);
           router.push('/dashboard/default');
         } else {
           console.error("ERROR : ");
@@ -100,11 +86,7 @@ const AuthLogin = ({ providers, csrfToken }: any) => {
 
   return (
     <Formik
-      /* initialValues={{
-        email: 'info@phoenixcoded.co',
-        password: '123456',
-        submit: null
-      }} */
+      
       initialValues={{
         username: '',
         password: '',
@@ -115,24 +97,6 @@ const AuthLogin = ({ providers, csrfToken }: any) => {
         password: Yup.string().max(255).required('Mot de passe requis')
       })}
       
-      /* onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-          //    console.log("-=-=-=-=-=-=-=-=-=-=- " + JSON.stringify(values));
-          try {
-          signIn('http://localhost:3333/api/v1/auth/login', { redirect: false, username: values.username, password: values.password });
-          if (scriptedRef.current) {
-            setStatus({ success: true });
-            setSubmitting(false);
-            
-            // preload('api/menu/dashboard', fetcher); // load menu on login success
-          }
-        } catch (err: any) {
-          if (scriptedRef.current) {
-            setStatus({ success: false });
-            setErrors({ submit: err.message });
-            setSubmitting(false);
-          }
-        }
-         }} */
         onSubmit={onSubmit}
     >
       {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
