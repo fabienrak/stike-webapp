@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  stike-webapp-dev:
+    container_name: stike-webapp-dev
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app
+      - /app/.next
+      - /app/node_modules
+    ports:
+      - 3000:3000
+    env_file:
+      - ./.env

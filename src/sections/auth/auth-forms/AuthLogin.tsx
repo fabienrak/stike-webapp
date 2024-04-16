@@ -58,14 +58,18 @@ const AuthLogin = ({ providers, csrfToken }: any) => {
     .then((response) => {
         if(JSON.stringify(response.status) == 200){
 
+          let appDataArray = [];
+
           //  Todo : Encrypt data on localStorage
-          /* const appData = {
+          const appData = {
             token_type: JSON.stringify(response.data.data.token.type),
             token_value:  JSON.stringify(response.data.data.token.token),
             date_expiration:  JSON.stringify(response.data.data.token.expiresAt),
             user_id:  JSON.stringify(response.data.data.user_data.id),
             username: JSON.stringify(response.data.data.user_data.username)
-          }; */
+          };
+          //appDataArray.push(appData);
+          localStorage.setItem('stike_data', JSON.stringify(appData))
           
           localStorage.setItem("token_type",JSON.stringify(response.data.data.token.type));
           localStorage.setItem("token_value",JSON.stringify(response.data.data.token.token));

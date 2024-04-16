@@ -19,6 +19,7 @@ const DashboardDefault = () => {
 
   const tokenEnCour = localStorage.getItem("token_type");
   console.log("****** TOKEN TYPE ****** : " + tokenEnCour)
+  console.log("======== CONTAINER DATA ======= : " + tokenEnCour)
 
 
   return (
