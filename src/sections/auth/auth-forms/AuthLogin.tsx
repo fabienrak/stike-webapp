@@ -88,6 +88,8 @@ const AuthLogin = ({ providers, csrfToken }: any) => {
           
           // localStorage.setItem("app_data", dataStored);
           router.push('/dashboard/default');
+        } else {
+          console.error("ERROR : ");
         }
     }).catch((error) => {
         console.error("ERROR : " + error);

@@ -6,8 +6,8 @@ import './globals.css';
 import ProviderWrapper from './ProviderWrapper';
 
 export const metadata: Metadata = {
-  title: 'OC WEBAPP',
-  description: 'Dashboard OC APP'
+  title: 'STIKE',
+  description: 'STIKE WEBAPP'
 };
 
 export default function RootLayout({ children }: { children: React.ReactElement }) {

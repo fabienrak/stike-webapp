@@ -2,7 +2,7 @@
 import { FormattedMessage } from 'react-intl';
 
 // ASSETS
-import { Story, Paperclip2, Book, Personalcard, PenTool, UserSquare } from 'iconsax-react';
+import { PenTool, UserSquare } from 'iconsax-react';
 
 // TYPE
 import { NavItemType } from 'types/menu';
@@ -21,7 +21,7 @@ const settings: NavItemType = {
     children: [
       {
         id: 'utilisateur',
-        title: <FormattedMessage id="utilisateur" />,
+        title: <FormattedMessage id="Utilisateur" />,
         type: 'item',
         url: '/users/account/basic',
         icon: icons.users

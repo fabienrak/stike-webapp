@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 
 const Footer = () => (
   <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ p: '24px 16px 0px', mt: 'auto' }}>
-    <Typography variant="caption">&copy; OCEANACODE ♥ 2024</Typography>
+    <Typography variant="caption">&copy; Stike ♥ 2024</Typography>
     <Stack spacing={1.5} direction="row" justifyContent="space-between" alignItems="center">
       <Links component={Link} href="https://ableproadmin.com" target="_blank" variant="caption" color="textPrimary">
         Acceuil

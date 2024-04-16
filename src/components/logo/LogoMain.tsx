@@ -57,6 +57,7 @@ const LogoMain = ({ reverse, ...others }: { reverse?: boolean }) => {
         fill={theme.palette.primary.main}
       />
     </svg>
+    
   );
 };
 

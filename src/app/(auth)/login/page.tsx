@@ -1,10 +1,8 @@
-// PROJECT IMPORTS
-import Login from 'views/authentication/Login';
+import AppAuthLogin from "views/users/auth/login/login";
 
-// ================================|| LOGIN ||================================ //
 
-const LoginPage = () => {
-  return <Login />;
+const AuthLoginPage = () => {
+    return <AppAuthLogin />;
 };
-
-export default LoginPage;
+  
+export default AuthLoginPage;

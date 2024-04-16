@@ -5,4 +5,4 @@ const ArticlePage = () => {
     return <Article />;
   };
   
-  export default ArticlePage;
+export default ArticlePage;
