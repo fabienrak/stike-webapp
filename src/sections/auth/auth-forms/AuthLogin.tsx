@@ -34,7 +34,7 @@ import useScriptRef from 'hooks/useScriptRef';
 // ASSETS
 import { Eye, EyeSlash } from 'iconsax-react';
 import { preload } from 'swr';
-import { encryptLocalStorage } from 'utils/appUtils';
+import APPUtils, { encryptLocalStorage } from 'utils/appUtils';
 
 // ============================|| JWT - LOGIN ||============================ //
 
@@ -56,30 +56,26 @@ const AuthLogin = ({ providers, csrfToken }: any) => {
   const onSubmit = (values, {setSubmitting}) =>  {
     axios.post('http://localhost:3333/api/v1/auth/login', values)
     .then((response) => {
-        if(JSON.stringify(response.status) == 200){
+        console.log("***** REPONSE **** : " + JSON.stringify(response.data.status));
+        if(JSON.stringify(response.data.status) == '200'){
 
           let appDataArray = [];
 
           //  Todo : Encrypt data on localStorage
           const appData = {
-            token_type: JSON.stringify(response.data.data.token.type),
-            token_value:  JSON.stringify(response.data.data.token.token),
-            date_expiration:  JSON.stringify(response.data.data.token.expiresAt),
-            user_id:  JSON.stringify(response.data.data.user_data.id),
-            username: JSON.stringify(response.data.data.user_data.username)
+            token_type: response.data.data.token.type,
+            token_value:  response.data.data.token.token,
+            date_expiration:  response.data.data.token.expiresAt,
+            user_id:  response.data.data.user_data.id,
+            username: response.data.data.user_data.username
           };
-          //appDataArray.push(appData);
+          appDataArray.push(appData);
+    
           localStorage.setItem('stike_data', JSON.stringify(appData))
-          
-          localStorage.setItem("token_type",JSON.stringify(response.data.data.token.type));
-          localStorage.setItem("token_value",JSON.stringify(response.data.data.token.token));
-          localStorage.setItem("date_expiration",JSON.stringify(response.data.data.token.expiresAt));
-          localStorage.setItem("user_id",JSON.stringify(response.data.data.user_data.id));
-          localStorage.setItem("username",JSON.stringify(response.data.data.user_data.username));
           
           router.push('/dashboard/default');
         } else {
-          console.error("ERROR : ");
+          console.error("ERROR : " + response.data.message);
         }
     }).catch((error) => {
         console.error("ERROR : " + error);
