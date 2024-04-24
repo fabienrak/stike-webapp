@@ -4,7 +4,6 @@ import { useState, SyntheticEvent } from 'react';
 
 // NEXT
 import Link from 'next/link';
-// import { useSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 // MATERIAL - UI
@@ -28,17 +27,20 @@ import { Formik } from 'formik';
 // PROJECT IMPORTS
 import IconButton from 'components/@extended/IconButton';
 import AnimateButton from 'components/@extended/AnimateButton';
-import { fetcher } from 'utils/axios';
+// import { fetcher } from 'utils/axios';
 import useScriptRef from 'hooks/useScriptRef';
 
 // ASSETS
 import { Eye, EyeSlash } from 'iconsax-react';
 import { preload } from 'swr';
-import APPUtils, { encryptLocalStorage } from 'utils/appUtils';
+// import APPUtils, { encryptLocalStorage } from 'utils/appUtils';
+import { useSearchParams } from "next/navigation";
+import { useLogin } from 'hooks/auth/useLogin'
 
 // ============================|| JWT - LOGIN ||============================ //
 
 const AuthLogin = ({ providers, csrfToken }: any) => {
+  const {authLogin} = useLogin();
   const scriptedRef = useScriptRef();
   const [checked, setChecked] = useState(false);
   // const { data: session } = useSession();
@@ -53,7 +55,7 @@ const AuthLogin = ({ providers, csrfToken }: any) => {
     event.preventDefault();
   };
 
-  const onSubmit = (values, {setSubmitting}) =>  {
+  /* const handleSignin = (values, {setSubmitting}) =>  {
     axios.post('http://localhost:3333/api/v1/auth/login', values)
     .then((response) => {
         console.log("***** REPONSE **** : " + JSON.stringify(response.data.status));
@@ -72,7 +74,6 @@ const AuthLogin = ({ providers, csrfToken }: any) => {
           appDataArray.push(appData);
     
           localStorage.setItem('stike_data', JSON.stringify(appData))
-          
           router.push('/dashboard/default');
         } else {
           console.error("ERROR : " + response.data.message);
@@ -82,11 +83,32 @@ const AuthLogin = ({ providers, csrfToken }: any) => {
     }).finally(() => {
         setSubmitting(false);
     })
+  } */
+
+  const handleSignin = (values, {setErrors, setStatus, setSubmitting}) =>  {
+    try {
+      authLogin(values.username, values.password)
+      .then((response) => {
+        router.push('/dashboard/default');
+      }).catch((e) => alert(e))
+        .finally(() =>  {
+          setSubmitting(false)
+      })
+      if (scriptedRef.current) {
+        setStatus({ success: true });
+        setSubmitting(false);
+      }
+    } catch(err: any){
+      if (scriptedRef.current) {
+        setStatus({ success: false });
+        setErrors({ submit: err.message });
+        setSubmitting(false);
+      }
+    }
   }
 
   return (
     <Formik
-      
       initialValues={{
         username: '',
         password: '',
@@ -97,7 +119,30 @@ const AuthLogin = ({ providers, csrfToken }: any) => {
         password: Yup.string().max(255).required('Mot de passe requis')
       })}
       
-        onSubmit={onSubmit}
+      onSubmit={handleSignin}
+      // onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+      //   try {
+      //     signIn('credentials', { 
+      //       redirect: false, 
+      //       username: values.username, 
+      //       password: values.password, 
+      //       callbackUrl: "/dashboard/default" 
+      //     }).then((response)  =>  {
+      //       console.log("---- REPONSE SIGN IN AUTH LOGIN : " + JSON.stringify(response))
+      //     })
+
+      //     if (scriptedRef.current) {
+      //       setStatus({ success: true });
+      //       setSubmitting(false);
+      //     }
+      //   } catch (err: any) {
+      //     if (scriptedRef.current) {
+      //       setStatus({ success: false });
+      //       setErrors({ submit: err.message });
+      //       setSubmitting(false);
+      //     }
+      //   }
+      // }}
     >
       {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
         <form noValidate onSubmit={handleSubmit}>

@@ -2,33 +2,48 @@ import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import axios from 'utils/axios';
 
-let users = [
-  {
-    id: 1,
-    name: 'Jone Doe',
-    email: 'info@codedthemes.com',
-    password: '123456'
-  }
-];
-
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET_KEY,
   providers: [
-    CredentialsProvider({
-      id: 'login',
-      name: 'login',
+    CredentialsProvider ({
+      // id: 'login',
+      // name: 'login',
+      id: 'credentials',
+      name: "credentials",
+      type: "credentials",
       credentials: {
-        username: { name: 'username', label: 'Username', type: 'username', placeholder: 'Nom d utilisateur' },
-        password: { name: 'password', label: 'Password', type: 'password', placeholder: 'Mot de passe' }
+        username: { name: 'username', label: 'Nom d utilisateur', type: 'username', placeholder: 'Nom d utilisateur' },
+        password: { name: 'password', label: 'Mot de passe', type: 'password', placeholder: 'Mot de passe' }
       },
-      async authorize(credentials) {
+      async authorize(credentials, req) {
+
         try {
+          // const user = await axios.post('http://localhost:3333/api/v1/auth/login', {
           const user = await axios.post('http://localhost:3333/api/v1/auth/login', {
             password: credentials?.password,
             username: credentials?.username
           });
 
-          console.log("###### AUTH OPTION ############ : " + user);
+          console.log("###### AUTH OPTION ############ : " + JSON.stringify(user));
+          return null;
+          /* if (user) {
+            user.data.user['accessToken'] = user.data.serviceToken;
+            return user.data.user;
+          } */
+        } catch (e: any) {
+          const errorMessage = e?.response.data.message;
+          throw new Error(errorMessage);
+        }
+      },
+      /* async authorize(credentials) {
+        try {
+          // const user = await axios.post('http://localhost:3333/api/v1/auth/login', {
+          const user = await axios.post('http://localhost:3333/api/v1/auth/login', {
+            password: credentials?.password,
+            username: credentials?.username
+          });
+
+          console.log("###### AUTH OPTION ############ : " + JSON.stringify(user));
 
           if (user) {
             user.data.user['accessToken'] = user.data.serviceToken;
@@ -38,8 +53,9 @@ export const authOptions: NextAuthOptions = {
           const errorMessage = e?.response.data.message;
           throw new Error(errorMessage);
         }
-      }
+      } */
     }),
+
     CredentialsProvider({
       id: 'register',
       name: 'Register',
@@ -70,8 +86,10 @@ export const authOptions: NextAuthOptions = {
         }
       }
     })
+    
   ],
   callbacks: {
+    
     jwt: async ({ token, user, account }) => {
       if (user) {
         // @ts-ignore
@@ -83,9 +101,9 @@ export const authOptions: NextAuthOptions = {
     },
     session: ({ session, token }) => {
       if (token) {
-        session.id = token.id;
-        session.provider = token.provider;
-        session.token = token;
+        // session.id = token.id;
+        // session.provider = token.provider;
+        // session.token = token;
       }
       return session;
     }

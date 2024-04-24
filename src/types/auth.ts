@@ -9,7 +9,7 @@ export type GuardProps = {
   children: ReactNode;
 };
 
-export type UserProfile = {
+export type TUserProfile = {
   id?: string;
   email?: string;
   avatar?: string;
@@ -80,6 +80,15 @@ export interface AuthActionProps {
 
 export interface JWTDataProps {
   userId: string;
+}
+
+export type AuthUserDataType = {
+  isLoggedIn: boolean;
+  user?: TUser | null | undefined;
+  logout: () => void;
+  login: (username: string, password: string) => Promise<void>;
+  register: (full_name: string, username: string, password: string) => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
 }
 
 export type JWTContextType = {
